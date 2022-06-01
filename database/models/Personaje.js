@@ -13,20 +13,22 @@ const Personaje = sequelize.define('personaje', {
     },
     edad: {
         type: DataTypes.INTEGER,
-        
+
     },
     peso: {
         type: DataTypes.FLOAT,
-        
+
     },
     historia: {
         type: DataTypes.TEXT,
-        
+
     },
     peliculasOSeries: {
         type: DataTypes.TEXT,
-        
+
     }
+}, {
+    timestamps: false
 });
 
 module.exports = Personaje;

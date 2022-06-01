@@ -26,6 +26,8 @@ const PeliculaOSerie = sequelize.define('peliculaOSerie', {
     personajesAsociados: {
         type: DataTypes.TEXT,
     }
+}, {
+    timestamps: false
 });
 
 module.exports = PeliculaOSerie;

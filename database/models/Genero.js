@@ -15,6 +15,8 @@ const Genero = sequelize.define('genero', {
         type: DataTypes.TEXT,
         
     }
+},{
+    timestamps: false
 });
 
 module.exports = Genero;
