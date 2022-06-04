@@ -10,7 +10,8 @@ const app = express()
 // Importar rutas.
 const personajeRoutes = require('./routes/Personaje');
 const peliculaOSerieRoutes = require('./routes/PeliculaOSerie');
-const generojeRoutes = require('./routes/Genero');
+const generoRoutes = require('./routes/Genero');
+const userRoutes = require('./routes/User');
 
 // Configuración.
 const port = 3000 || process.env.PORT;
@@ -28,9 +29,10 @@ const jsonParser = bodyParser.json()
 //app.get('/', (req, res) => {
 //  res.send('Hello World!')
 //})
-app.get('/api/characters', jsonParser, personajeRoutes);
-app.get('/api/movies', jsonParser, peliculaOSerieRoutes);
-app.get('/api/generos', jsonParser, generojeRoutes);
+app.use('/api/characters', jsonParser, personajeRoutes);
+app.use('/api/movies', jsonParser, peliculaOSerieRoutes);
+app.use('/api/generos', jsonParser, generoRoutes);
+app.use('/auth', jsonParser, userRoutes);
 
 app.listen(port, () => {
   console.log(`La app ha iniciado en http://localhost:${port}/`)
