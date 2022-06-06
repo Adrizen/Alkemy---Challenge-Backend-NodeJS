@@ -1,4 +1,4 @@
-const peliculaOSerie = require('../database/models/PeliculaOSerie');
+const peliculaOSerie = require('../models/PeliculaOSerie');
 
 async function getPeliculasOSeries(req, res) {
     try {

@@ -4,6 +4,6 @@ const router = Router();
 const generoController = require('../controllers/genero.controller');
 
 // /api/generos
-router.get('/api/generos', generoController.getGeneros) ;
+router.get('/', generoController.getGeneros) ;
 
 module.exports = router;

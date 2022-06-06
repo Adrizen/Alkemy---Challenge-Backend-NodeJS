@@ -4,6 +4,6 @@ const router = Router();
 const peliculaOSerieController = require('../controllers/peliculaOSerie.controller');
 
 // /api/movies
-router.get('/api/movies', peliculaOSerieController.getPeliculasOSeries);
+router.get('/', peliculaOSerieController.getPeliculasOSeries);
 
 module.exports = router;

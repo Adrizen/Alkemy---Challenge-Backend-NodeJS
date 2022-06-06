@@ -1,5 +1,5 @@
 const express = require('express');
-const sequelize = require('./database/db');
+const sequelize = require('./src/database/db');
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const app = express()
@@ -8,10 +8,10 @@ const app = express()
 //const Genero = require('./database/models/Genero');
 
 // Importar rutas.
-const personajeRoutes = require('./routes/Personaje');
-const peliculaOSerieRoutes = require('./routes/PeliculaOSerie');
-const generoRoutes = require('./routes/Genero');
-const userRoutes = require('./routes/User');
+const personajeRoutes = require('./src/routes/Personaje');
+const peliculaOSerieRoutes = require('./src/routes/PeliculaOSerie');
+const generoRoutes = require('./src/routes/Genero');
+const userRoutes = require('./src/routes/User');
 const auth = require('./middleware/auth');
 
 // Configuración.
@@ -38,11 +38,12 @@ app.use('/welcome', auth, (req, res) => {
   res.status(200).send("Bienvenuti 🙌")
 });
 
+
 app.listen(port, () => {
   console.log(`La app ha iniciado en http://localhost:${port}/`)
   // Conectarse a la base de datos.
   // Con 'force: true' se hace DROP TABLES y se las crea de nuevo.
-  sequelize.sync({ force: false }).then(() => {
+  sequelize.sync({ force: true }).then(() => {
     console.log("Nos hemos conectado a la base de datos.")
   }).catch(error => {
     console.log("Se ha producido un error: ", error)

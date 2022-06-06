@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
-const { database } = require('../../config');
-const sequelize = require('../db');
+//const { database } = require('../../config');
+const sequelize = require('../database/db');
 
 const PeliculaOSerie = sequelize.define('peliculaOSerie', {
     imagen: {

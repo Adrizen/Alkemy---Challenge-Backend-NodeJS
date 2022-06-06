@@ -1,10 +1,10 @@
-const Personaje = require('../database/models/Personaje');
+const genero = require('../models/Genero');
 
-async function getPersonajes(req, res) {
+async function getGeneros(req, res) {
     try {
-        const personajes = await Personaje.findAll();
+        const generos = await genero.findAll();
         res.json({
-            data: personajes
+            data: generos
         });
     } catch (error) {
         console.log(err)
@@ -16,5 +16,5 @@ async function getPersonajes(req, res) {
 }
 
 module.exports = {
-    getPersonajes
+    getGeneros
 }
