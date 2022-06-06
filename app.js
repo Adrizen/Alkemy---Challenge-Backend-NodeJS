@@ -12,6 +12,7 @@ const personajeRoutes = require('./routes/Personaje');
 const peliculaOSerieRoutes = require('./routes/PeliculaOSerie');
 const generoRoutes = require('./routes/Genero');
 const userRoutes = require('./routes/User');
+const auth = require('./middleware/auth');
 
 // Configuración.
 const port = 3000 || process.env.PORT;
@@ -33,6 +34,9 @@ app.use('/api/characters', jsonParser, personajeRoutes);
 app.use('/api/movies', jsonParser, peliculaOSerieRoutes);
 app.use('/api/generos', jsonParser, generoRoutes);
 app.use('/auth', jsonParser, userRoutes);
+app.use('/welcome', auth, (req, res) => {
+  res.status(200).send("Bienvenuti 🙌")
+});
 
 app.listen(port, () => {
   console.log(`La app ha iniciado en http://localhost:${port}/`)
