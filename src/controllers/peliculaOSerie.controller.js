@@ -2,7 +2,9 @@ const peliculaOSerie = require('../models/PeliculaOSerie');
 
 async function getPeliculasOSeries(req, res) {
     try {
-        const peliculasOSeries = await peliculaOSerie.findAll();
+        const peliculasOSeries = await peliculaOSerie.findAll({
+            attributes: ['titulo', 'imagen', 'fechaDeCreacion']
+        });
         res.json({
             data: peliculasOSeries
         });

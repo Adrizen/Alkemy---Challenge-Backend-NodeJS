@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 //const { database } = require('../../config');
 const sequelize = require('../database/db');
+const PeliculaOSerie = require('./PeliculaOSerie');
 
 const Genero = sequelize.define('genero', {
     nombre: {
@@ -10,13 +11,7 @@ const Genero = sequelize.define('genero', {
     imagen: {
         type: DataTypes.TEXT,
         allowNull: false
-    },
-    peliculasOSeries: {
-        type: DataTypes.TEXT,
-        
     }
-},{
-    timestamps: false
 });
 
 module.exports = Genero;

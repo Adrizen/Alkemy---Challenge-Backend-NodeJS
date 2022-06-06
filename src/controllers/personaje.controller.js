@@ -2,7 +2,9 @@ const Personaje = require('../models/Personaje');
 
 async function getPersonajes(req, res) {
     try {
-        const personajes = await Personaje.findAll();
+        const personajes = await Personaje.findAll({
+            attributes: ['nombre', 'imagen']
+        });
         res.json({
             data: personajes
         });
