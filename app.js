@@ -3,8 +3,6 @@ const sequelize = require('./src/database/db');
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const app = express()
-require('./src/database/associations');
-require('./seed')
 
 //const PeliculaOSerie = require('./database/models/PeliculaOSerie');
 //const Genero = require('./database/models/Genero');
@@ -44,11 +42,14 @@ app.listen(port, () => {
   // Conectarse a la base de datos.
   // Con 'force: true' se hace DROP TABLES y se las crea de nuevo.
   sequelize.sync({ force: false }).then(() => {
-    console.log("Nos hemos conectado a la base de datos.")
+  }).then(() => {
+    require('./src/database/associations');
+  }).then(() => {
+    require('./seed')
   }).catch(error => {
     console.log("Se ha producido un error: ", error)
   })
 
-})
+});
 
 module.exports = app;
