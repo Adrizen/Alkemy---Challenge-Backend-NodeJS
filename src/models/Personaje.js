@@ -23,6 +23,9 @@ const Personaje = sequelize.define('personaje', {
         type: DataTypes.TEXT,
 
     }
+},
+{
+    freezeTableName: true   // Para que sequelize no genere las tablas en plural.
 });
 
 

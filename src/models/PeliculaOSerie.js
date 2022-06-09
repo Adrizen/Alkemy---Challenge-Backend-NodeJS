@@ -24,6 +24,8 @@ const PeliculaOSerie = sequelize.define('peliculaOSerie', {
         },
         allowNull: false
     }
+},{
+    freezeTableName: true   // Para que sequelize no genere las tablas en plural.
 });
 
 module.exports = PeliculaOSerie;

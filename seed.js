@@ -39,4 +39,3 @@ sequelize.sync({ force: true }).then(() => {
     console.log("Se ha producido un error: ", error)
 });
 
-// TODO: Mepa que esto está turbina. Se generarían bien las tablas sin estos seeders?

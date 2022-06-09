@@ -12,6 +12,8 @@ const Genero = sequelize.define('genero', {
         type: DataTypes.TEXT,
         allowNull: false
     }
+}, {
+    freezeTableName: true   // Para que sequelize no genere las tablas en plural.
 });
 
 module.exports = Genero;

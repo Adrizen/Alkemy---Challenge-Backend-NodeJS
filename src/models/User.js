@@ -16,6 +16,8 @@ const User = sequelize.define('user', {
         allowNull: false,
         unique: true,
     }
+},{
+    freezeTableName: true   // Para que sequelize no genere las tablas en plural.
 });
 
 module.exports = User;
