@@ -13,6 +13,7 @@ const peliculaOSerieRoutes = require('./src/routes/PeliculaOSerie');
 const generoRoutes = require('./src/routes/Genero');
 const userRoutes = require('./src/routes/User');
 const auth = require('./middleware/auth');
+const Personaje = require('./src/models/Personaje');
 
 // Configuración.
 const port = 3000 || process.env.PORT;
@@ -26,7 +27,7 @@ app.use(morgan('dev'))    // Mostrar queries en la terminal.
 app.use(express.json())   // Archivos JSON.
 const jsonParser = bodyParser.json()
 
-// Rutas.
+// Rutas. Nota: Se requiere autenticación antes de hacer un petición a la API. Se obtiene con un token al loguearse.
 app.use('/api/characters', jsonParser, auth, personajeRoutes);
 app.use('/api/movies', jsonParser, auth, peliculaOSerieRoutes);
 app.use('/api/generos', jsonParser, auth, generoRoutes);
@@ -49,7 +50,8 @@ app.listen(port, () => {
   }).catch(error => {
     console.log("Se ha producido un error: ", error)
   })
+})
 
-});
+
 
 module.exports = app;
