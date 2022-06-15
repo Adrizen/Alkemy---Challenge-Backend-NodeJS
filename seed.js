@@ -8,9 +8,9 @@ const personajes = [
     { imagen: "url", nombre: "Chefcito", edad: "2", peso: "0.5", historia: "Es una rata" },
     { imagen: "url", nombre: "Blancanieves", edad: "25", peso: "60", historia: "Es una princesa" },
     { imagen: "url", nombre: "Simba", edad: "4", peso: "60", historia: "Es un león" },
-    { imagen: "url", nombre: "Woody", edad: "1", peso: "0.5", historia: "Es un sheriff" }
+    { imagen: "url", nombre: "Woody", edad: "1", peso: "0.5", historia: "Es un sheriff" },
+    { imagen: "url", nombre: "Buzz Lightyear", edad: "1", peso: "0.5", historia: "Es un guardía espacial" }
 ]
-
 
 async function establecerParticipaciones() {
     participaciones.forEach(async participacion => {
@@ -20,7 +20,6 @@ async function establecerParticipaciones() {
         let peliculaOSerieBuscada = await PeliculaOSerie.findByPk(identificadorPeliOSerie)
         personajeBuscado.addPeliculaOSerie(peliculaOSerieBuscada)
     })
-
 }
 
 const peliculasOSeries = [
@@ -61,20 +60,21 @@ async function sincronizar() {
         // Rellenar peliculasOSeries
         peliculasOSeries.forEach(peliculaOSerie => PeliculaOSerie.create(peliculaOSerie));
     }).then(() => {
+        // Rellenar usuarios.
 
     }).catch(error => {
         console.log("Se ha producido un error: ", error)
     });
 }
 
-sincronizar().then( () => {
-    participaciones.forEach(async participacion => {
+sincronizar().then(() => {
+    participaciones.forEach(async participacion => {    // Se rellena la tabla 'participa'. La cual tiene personajeId-peliculaOSerieId
         const identificadorPersonaje = participacion.personajeId;
         const identificadorPeliOSerie = participacion.peliculaOSerieId;
-        console.log(await Personaje.findOne())
+        await Personaje.findOne()   // wtf
         let personajeBuscado = await Personaje.findByPk(identificadorPersonaje);
         let peliculaOSerieBuscada = await PeliculaOSerie.findByPk(identificadorPeliOSerie)
         personajeBuscado.addPeliculaOSerie(peliculaOSerieBuscada)
     })
-} )
+});
 

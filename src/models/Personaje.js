@@ -9,7 +9,8 @@ const Personaje = sequelize.define('personaje', {
     },
     nombre: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     edad: {
         type: DataTypes.INTEGER,
