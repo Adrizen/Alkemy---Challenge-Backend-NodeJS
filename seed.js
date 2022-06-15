@@ -28,8 +28,7 @@ const peliculasOSeries = [
     { imagen: "url", titulo: "El rey león (1994)", fechaDeCreacion: "1994/01/01", calificacion: "5", generoId: "1" },
     { imagen: "url", titulo: "El rey león (2019)", fechaDeCreacion: "2019/01/01", calificacion: "5", generoId: "2" },
     { imagen: "url", titulo: "Toy Story", fechaDeCreacion: "1995/01/01", calificacion: "5", generoId: "2" },
-    { imagen: "url", titulo: "Toy Story 2", fechaDeCreacion: "1999/01/01", calificacion: "5", generoId: "2" },
-    { imagen: "url", titulo: "TESTING MOVIE", fechaDeCreacion: "1900/01/01", calificacion: "5", generoId: "1" }
+    { imagen: "url", titulo: "Toy Story 2", fechaDeCreacion: "1999/01/01", calificacion: "5", generoId: "2" }
 ]
 
 const generos = [
@@ -43,7 +42,9 @@ const participaciones = [
     { personajeId: "3", peliculaOSerieId: "3" },
     { personajeId: "3", peliculaOSerieId: "4" },
     { personajeId: "4", peliculaOSerieId: "5" },
-    { personajeId: "4", peliculaOSerieId: "6" }
+    { personajeId: "4", peliculaOSerieId: "6" },
+    { personajeId: "5", peliculaOSerieId: "5" },
+    { personajeId: "5", peliculaOSerieId: "6" }
 ]
 
 async function sincronizar() {
@@ -60,7 +61,6 @@ async function sincronizar() {
         // Rellenar peliculasOSeries
         peliculasOSeries.forEach(peliculaOSerie => PeliculaOSerie.create(peliculaOSerie));
     }).then(() => {
-        // Rellenar usuarios.
 
     }).catch(error => {
         console.log("Se ha producido un error: ", error)

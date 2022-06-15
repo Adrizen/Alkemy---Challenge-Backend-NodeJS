@@ -2,24 +2,20 @@ const Personaje = require('../models/Personaje');
 const PeliculaOSerie = require('../models/PeliculaOSerie')
 
 // Dependiendo de si hay query o no, se devuelven todos los personajes (no hay query) o se filtan (hay query)
-function getPersonajesManager(req, res){
+function getPersonajesManager(req, res) {
     console.log(req.query)
-    if (JSON.stringify(req.query) === "{}"){ // Si no hay query para filtrar personajes, devolver todos los personajes.
+    if (JSON.stringify(req.query) === "{}") { // Si no hay query para filtrar personajes, devolver todos los personajes.
         getTodosLosPersonajes(req, res);
     } else {    // Si hay query para filtrar personajes, entonces filtrarlos y luego devolverlos.
         getPersonajesFiltrados(req, res);
     }
 }
 
-// Obtener todos los personajes.
+// Obtener todos los personajes y mostrar 'nombre' e 'imagnen'
 async function getTodosLosPersonajes(req, res) {
     try {
         const personajes = await Personaje.findAll({
-            include: {
-                model: PeliculaOSerie,
-                attributes: { exclude: 'participa' }
-            },
-            attributes: ['nombre', 'imagen']
+            attributes: ['nombre', 'imagen'],
         });
         res.json({
             data: personajes
@@ -33,10 +29,11 @@ async function getTodosLosPersonajes(req, res) {
     }
 }
 
+// Obtener todos los personajes o algunas según un filtro de req.query.
 async function getPersonajesFiltrados(req, res) {
     try {
         const filtros = req.query;
-        if (filtros == null){
+        if (filtros == null) {
             getPersonajes(req, res);
         }
         const personajesTotales = await Personaje.findAll({ raw: true });
@@ -53,6 +50,31 @@ async function getPersonajesFiltrados(req, res) {
         });
     } catch (error) {
         console.log(error);
+        res.status(500).json({
+            "message": 'Algo salió mal.',
+            "data": {}
+        })
+    }
+}
+
+// Devuelve toda la info del personaje junto con sus pelis o series.
+async function getDetallePersonaje(req, res) {
+    try {
+        const personaje = await Personaje.findByPk(req.params.id, {
+            include: PeliculaOSerie
+        });
+        if (personaje) {
+            res.status(201).json({
+                "data": personaje
+            })
+        } else {
+            res.status(409).json({
+                "message": 'Personaje no encontrado',
+                "data": {}
+            });
+        }
+    } catch (error) {
+        console.log(error)
         res.status(500).json({
             "message": 'Algo salió mal.',
             "data": {}
@@ -81,7 +103,7 @@ async function newPersonaje(req, res) {
     }
     catch (error) {
         console.log(error);
-        if (error.name === 'SequelizeUniqueConstraintError') {  // Habrá una mejor forma de hacer esto?
+        if (error.name === 'SequelizeUniqueConstraintError') {
             res.status(409).json({
                 "message": 'Ese personaje ya existe.',
                 "data": {}
@@ -113,6 +135,7 @@ async function editPersonaje(req, res) {
 
 module.exports = {
     getPersonajesManager,
+    getDetallePersonaje,
     newPersonaje,
     editPersonaje
 }

@@ -3,7 +3,7 @@ const router = Router();
 
 const peliculaOSerieController = require('../controllers/peliculaOSerie.controller');
 
-// /api/movies. TODO: Poner la dirección como /movies/ y borrar /movies/ de app.js?
-router.get('/', peliculaOSerieController.getPeliculasOSeries);
+router.get('/', peliculaOSerieController.getPeliculasOSeries);            // Obtener todas las pelis/series o algunas según un filtro de req.query.
+router.get('/:id', peliculaOSerieController.getDetallePeliculaOSerie);    // DETALLE: Una peli o serie en particular con sus pejotas.
 
 module.exports = router;
