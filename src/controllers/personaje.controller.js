@@ -1,9 +1,24 @@
 const Personaje = require('../models/Personaje');
+const PeliculaOSerie = require('../models/PeliculaOSerie')
+
+// Dependiendo de si hay query o no, se devuelven todos los personajes (no hay query) o se filtan (hay query)
+function getPersonajesManager(req, res){
+    console.log(req.query)
+    if (JSON.stringify(req.query) === "{}"){ // Si no hay query para filtrar personajes, devolver todos los personajes.
+        getTodosLosPersonajes(req, res);
+    } else {    // Si hay query para filtrar personajes, entonces filtrarlos y luego devolverlos.
+        getPersonajesFiltrados(req, res);
+    }
+}
 
 // Obtener todos los personajes.
-async function getPersonajes(req, res) {
+async function getTodosLosPersonajes(req, res) {
     try {
         const personajes = await Personaje.findAll({
+            include: {
+                model: PeliculaOSerie,
+                attributes: { exclude: 'participa' }
+            },
             attributes: ['nombre', 'imagen']
         });
         res.json({
@@ -18,9 +33,12 @@ async function getPersonajes(req, res) {
     }
 }
 
-async function getPersonaje(req, res) {
+async function getPersonajesFiltrados(req, res) {
     try {
         const filtros = req.query;
+        if (filtros == null){
+            getPersonajes(req, res);
+        }
         const personajesTotales = await Personaje.findAll({ raw: true });
         const personajesFiltrados = personajesTotales.filter(pj => {
             let esValido = true;   // Al aplicar todos los filtros del for de abajo, siempre debe ser true. Para cumplir todas las condiciones.
@@ -94,8 +112,7 @@ async function editPersonaje(req, res) {
 
 
 module.exports = {
-    getPersonajes,
-    getPersonaje,
+    getPersonajesManager,
     newPersonaje,
     editPersonaje
 }
