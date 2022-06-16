@@ -1,5 +1,5 @@
 const Personaje = require('../models/Personaje');
-const PeliculaOSerie = require('../models/PeliculaOSerie')
+const PeliculaOSerie = require('../models/PeliculaOSerie');
 
 // Dependiendo de si hay query o no, se devuelven todos los personajes (no hay query) o se filtan (hay query)
 function getPersonajesManager(req, res) {
@@ -10,7 +10,7 @@ function getPersonajesManager(req, res) {
     }
 }
 
-// Obtener todos los personajes y mostrar 'nombre' e 'imagnen'
+// Obtener todos los personajes y mostrar sus 'nombre' e 'imagnen'
 async function getTodosLosPersonajes(req, res) {
     try {
         const personajes = await Personaje.findAll({
@@ -36,7 +36,7 @@ async function getPersonajesFiltrados(req, res) {
             raw: true,
             include: {
                 model: PeliculaOSerie,
-                attributes: ['id','imagen','titulo'],
+                attributes: ['id', 'imagen', 'titulo'],
                 through: { attributes: [] } // Esto evita que se muestren los datos de la function table 'participa'
             }
         });
@@ -122,23 +122,72 @@ async function newPersonaje(req, res) {
 }
 
 
-// Editar un personaje.
+// Editar un personaje dado un id pasado por parámetro.
 async function editPersonaje(req, res) {
     try {
-        const id = req.body.id;
-        const { imagen, nombre, edad, peso, historia } = req.body;
-        const body = req.body;
-        Personaje.updateOne({ id }, body)
+        const idPersonaje = req.params.id;
+        const { imagen, edad, peso, historia } = req.body;
+        Personaje.update({  // Esto devuelve un arreglo con la cantidad de filas actualizadas.
+            imagen: imagen,
+            edad: edad,
+            peso: peso,
+            historia: historia
+        }, {
+            where: { id: idPersonaje }
+        }).then(async filasActualizadas => {
 
+            // Si al menos una fila se actualizó, entonces tuve éxito.
+            if (filasActualizadas[0] > 0) {
+                let personaje = await Personaje.findByPk(idPersonaje);
+                res.status(200).json({
+                    "message": "Personaje actualizado con éxito.",
+                    "data": personaje
+                });
+            } else {
+                res.status(404).json({
+                    "message": "No se pudo actualizar el personaje",
+                    "data": {}
+                });
+            }
+        })
     } catch (error) {
-
+        console.log(error);
+        res.status(500).json({
+            "message": 'Algo salió mal.',
+            "data": {}
+        });
     }
 }
 
 
+async function deletePersonaje(req, res) {
+    try {
+        const idPersonaje = req.params.id;
+        Personaje.destroy({
+            where: { id: idPersonaje }
+        }).then(filasBorradas => {
+            if (filasBorradas > 0) {
+                res.status(200).json({
+                    "message": "Personaje borrado con éxito.",
+                    "data": { 
+                        idEliminado: idPersonaje
+                     }
+                });
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            "message": 'Algo salió mal.',
+            "data": {}
+        });
+    }
+}
+
 module.exports = {
     getPersonajesManager,
     getDetallePersonaje,
+    deletePersonaje,
     newPersonaje,
     editPersonaje
 }
