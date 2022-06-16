@@ -28,7 +28,7 @@ async function register(req, res) {
         });
 
         // Crear token.
-        const token = jwt.sign({ user_id: user.id, email }, "secret", { expiresIn: "2h" });
+        const token = jwt.sign({ user_id: user.id, email }, "secret", { expiresIn: "10h" });
         // Guardar token.
         user.token = token;
         // Devolver nuevo usuario.
@@ -58,7 +58,7 @@ async function login(req, res) {
         if (user && (await bcrypt.compare(password, user.password))){
 
             // Crear token.
-            const token = jwt.sign({ user_id: user.id, email }, "secret", { expiresIn: "2h" });
+            const token = jwt.sign({ user_id: user.id, email }, "secret", { expiresIn: "10h" });
 
             // Guardar token.
             user.token = token;
