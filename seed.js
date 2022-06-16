@@ -8,7 +8,7 @@ const personajes = [
     { imagen: "url", nombre: "Blancanieves", edad: "25", peso: "60", historia: "Es una princesa" },
     { imagen: "url", nombre: "Simba", edad: "4", peso: "60", historia: "Es un león" },
     { imagen: "url", nombre: "Woody", edad: "1", peso: "0.5", historia: "Es un sheriff" },
-    { imagen: "url", nombre: "Buzz Lightyear", edad: "1", peso: "0.5", historia: "Es un guardía espacial" }
+    { imagen: "url", nombre: "Buzz Lightyear", edad: "1", peso: "0.5", historia: "Es un guardian espacial" }
 ]
 
 const peliculasOSeries = [
@@ -37,16 +37,16 @@ const participaciones = [
 ]
 
 async function sincronizar() {
-    await sequelize.sync({ force: true }).then(() => {
+    await sequelize.sync({ force: true }).then(async () => {
         // Conexión establecida
         console.log("Conexión establecida a la base de datos.");
-    }).then(() => {
+    }).then(async () => {
         // Rellenar personajes.
         personajes.forEach(personaje => Personaje.create(personaje));
-    }).then(() => {
+    }).then(async () => {
         // Rellenar generos.
         generos.forEach(genero => Genero.create(genero));
-    }).then(() => {
+    }).then(async () => {
         // Rellenar peliculasOSeries
         peliculasOSeries.forEach(peliculaOSerie => PeliculaOSerie.create(peliculaOSerie));
     }).catch(error => {

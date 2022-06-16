@@ -4,24 +4,15 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const app = express()
 
-//const PeliculaOSerie = require('./database/models/PeliculaOSerie');
-//const Genero = require('./database/models/Genero');
-
 // Importar rutas.
 const personajeRoutes = require('./src/routes/Personaje');
 const peliculaOSerieRoutes = require('./src/routes/PeliculaOSerie');
 const generoRoutes = require('./src/routes/Genero');
 const userRoutes = require('./src/routes/User');
 const auth = require('./middleware/auth');
-const Personaje = require('./src/models/Personaje');
 
 // Configuración.
 const port = 3000 || process.env.PORT;
-
-// Middlewares.
-// Para poder rellenar el req.body
-//app.use(express.json());
-//app.use(express.urlencoded({ extended: false }));
 
 app.use(morgan('dev'))    // Mostrar queries en la terminal.
 app.use(express.json())   // Archivos JSON.
@@ -32,11 +23,6 @@ app.use('/api/characters', jsonParser, auth, personajeRoutes);
 app.use('/api/movies', jsonParser, auth, peliculaOSerieRoutes);
 app.use('/api/generos', jsonParser, auth, generoRoutes);
 app.use('/auth', jsonParser, userRoutes);
-
-app.use('/welcome', auth, (req, res) => { // Testing auth. TODO: Borrar.
-  res.status(200).send("Bienvenuti 🙌")
-});
-
 
 app.listen(port, () => {
   console.log(`La app ha iniciado en http://localhost:${port}/`)
@@ -52,6 +38,6 @@ app.listen(port, () => {
   })
 })
 
-
+// TOOD: Chequear todos los https codes.
 
 module.exports = app;
