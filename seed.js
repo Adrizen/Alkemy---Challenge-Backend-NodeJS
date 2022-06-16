@@ -2,7 +2,6 @@ const sequelize = require('./src/database/db');
 const Personaje = require('./src/models/Personaje');
 const Genero = require('./src/models/Genero');
 const PeliculaOSerie = require('./src/models/PeliculaOSerie');
-const User = require('./src/models/User');
 
 const personajes = [
     { imagen: "url", nombre: "Chefcito", edad: "2", peso: "0.5", historia: "Es una rata" },
@@ -11,16 +10,6 @@ const personajes = [
     { imagen: "url", nombre: "Woody", edad: "1", peso: "0.5", historia: "Es un sheriff" },
     { imagen: "url", nombre: "Buzz Lightyear", edad: "1", peso: "0.5", historia: "Es un guardía espacial" }
 ]
-
-async function establecerParticipaciones() {
-    participaciones.forEach(async participacion => {
-        const identificadorPersonaje = participacion.personajeId;
-        const identificadorPeliOSerie = participacion.peliculaOSerieId;
-        let personajeBuscado = await Personaje.findByPk(identificadorPersonaje);
-        let peliculaOSerieBuscada = await PeliculaOSerie.findByPk(identificadorPeliOSerie)
-        personajeBuscado.addPeliculaOSerie(peliculaOSerieBuscada)
-    })
-}
 
 const peliculasOSeries = [
     { imagen: "url", titulo: "Blancanieves y los siete enanitos", fechaDeCreacion: "1937/01/01", calificacion: "5", generoId: "1" },
@@ -60,8 +49,6 @@ async function sincronizar() {
     }).then(() => {
         // Rellenar peliculasOSeries
         peliculasOSeries.forEach(peliculaOSerie => PeliculaOSerie.create(peliculaOSerie));
-    }).then(() => {
-
     }).catch(error => {
         console.log("Se ha producido un error: ", error)
     });
@@ -71,7 +58,7 @@ sincronizar().then(() => {
     participaciones.forEach(async participacion => {    // Se rellena la tabla 'participa'. La cual tiene personajeId-peliculaOSerieId
         const identificadorPersonaje = participacion.personajeId;
         const identificadorPeliOSerie = participacion.peliculaOSerieId;
-        await Personaje.findOne()   // wtf
+        await Personaje.findOne()   // wtf. Sin esto, revienta todo.
         let personajeBuscado = await Personaje.findByPk(identificadorPersonaje);
         let peliculaOSerieBuscada = await PeliculaOSerie.findByPk(identificadorPeliOSerie)
         personajeBuscado.addPeliculaOSerie(peliculaOSerieBuscada)

@@ -3,7 +3,6 @@ const PeliculaOSerie = require('../models/PeliculaOSerie')
 
 // Dependiendo de si hay query o no, se devuelven todos los personajes (no hay query) o se filtan (hay query)
 function getPersonajesManager(req, res) {
-    console.log(req.query)
     if (JSON.stringify(req.query) === "{}") { // Si no hay query para filtrar personajes, devolver todos los personajes.
         getTodosLosPersonajes(req, res);
     } else {    // Si hay query para filtrar personajes, entonces filtrarlos y luego devolverlos.
@@ -33,10 +32,14 @@ async function getTodosLosPersonajes(req, res) {
 async function getPersonajesFiltrados(req, res) {
     try {
         const filtros = req.query;
-        if (filtros == null) {
-            getPersonajes(req, res);
-        }
-        const personajesTotales = await Personaje.findAll({ raw: true });
+        const personajesTotales = await Personaje.findAll({
+            raw: true,
+            include: {
+                model: PeliculaOSerie,
+                attributes: ['id','imagen','titulo'],
+                through: { attributes: [] } // Esto evita que se muestren los datos de la function table 'participa'
+            }
+        });
         const personajesFiltrados = personajesTotales.filter(pj => {
             let esValido = true;   // Al aplicar todos los filtros del for de abajo, siempre debe ser true. Para cumplir todas las condiciones.
             for (key in filtros) {
@@ -92,7 +95,7 @@ async function newPersonaje(req, res) {
             edad,
             peso,
             historia
-        })
+        });
         if (personajeNuevo) {
             res.status(201).json({
                 "message": "Personaje creado con éxito.",
