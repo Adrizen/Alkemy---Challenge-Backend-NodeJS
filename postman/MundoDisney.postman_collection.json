@@ -1,0 +1,527 @@
+{
+	"info": {
+		"_postman_id": "500eb023-4ec4-47cf-8ce4-de40e90e5dc5",
+		"name": "MundoDisney",
+		"description": "Antes de hacer cualquier request a la API hay que asegurarse de tener un token (x-access-token) válido para hacerla. Para conseguir un token primero hay que registrarse como usuario nuevo y a continuación loguearse, obteniendo así el token.\n\nCualquiera puede crear una cuenta y registrarse en MundoDisney.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20466692"
+	},
+	"item": [
+		{
+			"name": "personaje",
+			"item": [
+				{
+					"name": "crear nuevo personaje",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagen\": \"url\",\r\n    \"nombre\": \"Capitán América\",\r\n    \"edad\": \"150\",\r\n    \"peso\": \"72\",\r\n    \"historia\": \"Es un supersoldado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/characters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"characters"
+							]
+						},
+						"description": "Se crea un usuario enviando por el body los siguientes parámetros: *imagen*, *nombre*, *edad*, *peso* e *historia*."
+					},
+					"response": []
+				},
+				{
+					"name": "obtener personajes filtrando por query",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/characters?peliculaOSeries.id=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"characters"
+							],
+							"query": [
+								{
+									"key": "peliculaOSeries.id",
+									"value": "5"
+								}
+							]
+						},
+						"description": "Dado un query, se obtienen todos los personajes y luego se los filtra adecuadamente. Se pueden usar los siguientes query en cualquier combinación: nombre, edad, peso, historia, peliculaOSeries.id\n\nSe pueden combinar varios filtros.\n\n**Ejemplos:**\n\n*   /api/characters?peliculaOSeries.id=5\n*   /api/characters?nombre=Woody\n*   /api/characters?edad=2&peso=30"
+					},
+					"response": []
+				},
+				{
+					"name": "obtener todos los personajes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/characters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"characters"
+							]
+						},
+						"description": "Se obtienen todos los personajes, mostrando su *imagen* y *nombre*."
+					},
+					"response": []
+				},
+				{
+					"name": "obtener detalle personaje por id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/characters/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"characters",
+								"5"
+							]
+						},
+						"description": "Dado un personaje cuyo id es enviado por parámetro, se listan todos sus atributos así como también sus películas o series asociadas.\n\nEjemplos:\n\n*   /api/characters/1\n    \n\nEndFragment\n\n*   /api/characters/2"
+					},
+					"response": []
+				},
+				{
+					"name": "editar un personaje",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagen\": \"url\",\r\n    \"edad\": \"2\",\r\n    \"peso\": \"1\",\r\n    \"historia\": \"Es un juguete\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/characters/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"characters",
+								"5"
+							]
+						},
+						"description": "Para editar un personaje se envía por parámetro el id del mismo y luego en el body se colocan los siguientes datos: *imagen*, *edad*, *peso* e *historia*."
+					},
+					"response": []
+				},
+				{
+					"name": "borrar un personaje",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/characters/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"characters",
+								"5"
+							]
+						},
+						"description": "Para borrar un personaje se envía por parámetro su id."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "registrarse",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Andy\",\r\n    \"email\": \"lidar54583@runqx.com\",\r\n    \"password\": \"micontraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Para registrar un usuario se envía por el body los siguientes datos: *nombre*, *email* y *password*.\n\nSi el usuario se registra exitosamente, se le envía un mail de bienvenida."
+					},
+					"response": []
+				},
+				{
+					"name": "loguearse",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoiU2ludHJhIiwicGFzc3dvcmQiOiIkMmIkMTAkMy9YLllMaGVsaEFuYzlDZXBwbkF2T2Zkd29sdVd6ZUNiWjhMelIzOHo2UkprYTVscEdCWnkiLCJlbWFpbCI6InNpbnRyYWxtYW9AZ21haWwuY29tIiwiY3JlYXRlZEF0IjoiMjAyMi0wNC0yM1QxNjoxNjo0NC40MTdaIiwidXBkYXRlZEF0IjoiMjAyMi0wNC0yM1QxNjoxNjo0NC40MTdaIn0sImlhdCI6MTY1MDgxNjMyNywiZXhwIjoxNjUxNDIxMTI3fQ.eGF9yzohTPxfqwgtF2XiISa2eWUyYnU2uuL_1_HC_xM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"andy@gmail.com\",\r\n    \"password\": \"micontraseña\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Para loguearse, un usuario envía por el body los siguientes datos: *email* y *password*.\n\nSi el login tiene éxito, se le proporcionará un token que puede y debe usarse para realizar consultas a la API."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "peliculasOSeries",
+			"item": [
+				{
+					"name": "obtener todas las películas o series",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"movies"
+							]
+						},
+						"description": "Se obtienen todas las películas, mostrando su *imagen*, *titulo* y *fecha de creación*."
+					},
+					"response": []
+				},
+				{
+					"name": "obtener detalle película/serie por id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/movies/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"movies",
+								"1"
+							]
+						},
+						"description": "Dado una película/serie cuyo id es enviado por parámetro, se listan todos sus atributos así como también sus personajes asociados."
+					},
+					"response": []
+				},
+				{
+					"name": "obtener películas/series filtrando por query",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/movies?order=DESC&generoId=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"movies"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "DESC"
+								},
+								{
+									"key": "generoId",
+									"value": "2"
+								}
+							]
+						},
+						"description": "Dado un query, se obtienen todas las películas/series y luego se las filtra adecuadamente. Se pueden usar los siguientes query en cualquier combinación: *título*, *fechaDeCreación* y *generoId*.  \nSe pueden combinar varios filtros.\n\n**Ejemplos**:\n\n*   /api/movies?titulo=Ratatouille\n*   /api/movies?order=ASC\n*   /api/movies?order=DESC&generoId=2"
+					},
+					"response": []
+				},
+				{
+					"name": "crear nueva película/serie",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagen\": \"url\",\r\n    \"titulo\": \"Dr. Strange\",\r\n    \"fechaDeCreacion\": \"03/10/1997\",\r\n    \"calificacion\": \"5\",\r\n    \"generoId\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/movies/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"movies",
+								""
+							]
+						},
+						"description": "Se crea una película o serie enviando por el body los siguientes parámetros: *imagen*, *título*, *fechaDeCreación*, *calificación*, *generoId*."
+					},
+					"response": []
+				},
+				{
+					"name": "editar una película/serie",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagen\": \"url\",\r\n    \"fechaDeCreacion\": \"2000/10/03\",\r\n    \"calificacion\": \"1\",\r\n    \"generoId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/movies/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"movies",
+								"1"
+							]
+						},
+						"description": "Para editar una película/serie se envía por parámetro el id de la misma y luego en el body se colocan los siguientes datos: *imagen*, *fechaDeCreacion*, *calificacion* y *generoId*."
+					},
+					"response": []
+				},
+				{
+					"name": "borrar una película/serie",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6IjAiLCJpYXQiOjE2NTU0ODMxNTgsImV4cCI6MTY1NTUxOTE1OH0.8cFEYm4OEvBL8_lu22TajMxw0dTLCZazg_l9AllGdos",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/movies/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"movies",
+								"1"
+							]
+						},
+						"description": "Para borrar una película/serie se envía por parámetro su id."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
