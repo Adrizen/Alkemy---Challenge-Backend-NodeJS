@@ -28,7 +28,8 @@ async function getTodosLosPersonajes(req, res) {
     }
 }
 
-// Obtener todos los personajes o algunas según un filtro de req.query.
+// Obtener todos los personajes y luego filtrarlos de acuerdo al req.query.
+// Esto sería mucho más simple si no hubiera agregado la posibilidad de combinar filtros.
 async function getPersonajesFiltrados(req, res) {
     try {
         const filtros = req.query;
@@ -43,7 +44,7 @@ async function getPersonajesFiltrados(req, res) {
         const personajesFiltrados = personajesTotales.filter(pj => {
             let esValido = true;   // Al aplicar todos los filtros del for de abajo, siempre debe ser true. Para cumplir todas las condiciones.
             for (key in filtros) {
-                //console.log(key, "PJ.key:", pj[key] , "Filtro[key]:",  filtros[key]);
+                //console.log(key, "PJ[key]:", pj[key] , "Filtro[key]:",  filtros[key]);
                 esValido = esValido && pj[key] == filtros[key];
             }
             return esValido;    // Si esto resulta true, entonces 'pj' cumplió con todos los filtros propuestos.
@@ -170,7 +171,7 @@ async function deletePersonaje(req, res) {
                 res.status(200).json({
                     "message": "Personaje borrado con éxito.",
                     "data": { 
-                        idEliminado: idPersonaje
+                        id: idPersonaje
                      }
                 });
             }
