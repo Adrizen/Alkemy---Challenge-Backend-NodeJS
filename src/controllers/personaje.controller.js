@@ -103,7 +103,6 @@ async function newPersonaje(req, res) {
                 "data": personajeNuevo
             })
         }
-
     }
     catch (error) {
         console.log(error);
@@ -118,10 +117,8 @@ async function newPersonaje(req, res) {
                 "data": {}
             });
         }
-
     }
 }
-
 
 // Editar un personaje dado un id pasado por parámetro.
 async function editPersonaje(req, res) {
@@ -160,7 +157,7 @@ async function editPersonaje(req, res) {
     }
 }
 
-
+// Borrar un personaje.
 async function deletePersonaje(req, res) {
     try {
         const idPersonaje = req.params.id;
@@ -170,12 +167,19 @@ async function deletePersonaje(req, res) {
             if (filasBorradas > 0) {
                 res.status(200).json({
                     "message": "Personaje borrado con éxito.",
-                    "data": { 
+                    "data": {
                         id: idPersonaje
-                     }
+                    }
+                });
+            } else {
+                res.status(409).json({
+                    "message": "No se pudo borrar el personaje",
+                    "data": {
+                        id: idPersonaje
+                    }
                 });
             }
-        })
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({
