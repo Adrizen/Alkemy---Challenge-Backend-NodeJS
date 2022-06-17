@@ -102,10 +102,113 @@ async function getDetallePeliculaOSerie(req, res) {
     }
 }
 
-module.exports = {  // TODO: Yet to implement
-    //newPeliculaOSerie,
+// Crear una nueva película o serie.
+async function newPeliculaOSerie(req, res) {
+    try {
+        const { imagen, titulo, fechaDeCreacion, calificacion, generoId } = req.body;
+        const peliculaOSerieNueva = await PeliculaOSerie.create({
+            imagen,
+            titulo,
+            fechaDeCreacion,
+            calificacion,
+            generoId
+        });
+        if (peliculaOSerieNueva) {
+            res.status(201).json({
+                "message": "Pelicula/Serie creada con éxito",
+                "data": peliculaOSerieNueva
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            res.status(409).json({
+                "message": 'Esa pelicula/serie ya existe.',
+                "data": {}
+            });
+        } else {
+            res.status(500).json({
+                "message": 'Algo salió mal.',
+                "data": {}
+            });
+        }
+    }
+}
+
+// Editar una película o serie dado un id pasado por parámetro.
+async function editPeliculaOSerie(req, res) {
+    try {
+        const idPeliculaOSerie = req.params.id;
+        const { imagen, fechaDeCreacion, calificacion, generoId } = req.body;
+        PeliculaOSerie.update({ // Esto devuelve un arreglo con la cantidad de filas actualizadas.
+            imagen: imagen,
+            fechaDeCreacion: fechaDeCreacion,
+            calificacion: calificacion,
+            generoId: generoId
+        }, {
+            where: { id: idPeliculaOSerie }
+        }).then(async filasActualizadas => {
+
+            // Si al menos una fila se actualizó, entonces tuve éxito.
+            if (filasActualizadas[0] > 0) {
+                let peliculaOSerie = await PeliculaOSerie.findByPk(idPeliculaOSerie);
+                res.status(200).json({
+                    "message": "Pelicula/Serie actualizada con éxito.",
+                    "data": peliculaOSerie
+                });
+            } else {
+                res.status(409).json({
+                    "message": "No se pudo actualizar la película/serie",
+                    "data": {}
+                });
+            }
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            "message": 'Algo salió mal.',
+            "data": {}
+        });
+    }
+}
+
+// Borrar una película o serie.
+async function deletePeliculaOSerie(req, res) {
+    try {
+        const idPeliculaOSerie = req.params.id;
+        PeliculaOSerie.destroy({
+            where: { id: idPeliculaOSerie }
+        }).then(filasBorradas => {
+            console.log(filasBorradas)
+            if (filasBorradas > 0) {
+                res.status(200).json({
+                    "message": "Película/serie borrada con éxito.",
+                    "data": {
+                        id: idPeliculaOSerie
+                    }
+                });
+            } else {
+                res.status(409).json({
+                    "message": "No se pudo borrar la película/serie",
+                    "data": {
+                        id: idPeliculaOSerie
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            "message": 'Algo salió mal.',
+            "data": {}
+        });
+    }
+}
+
+module.exports = {
+    newPeliculaOSerie,
     getPeliculaOSerieManager,
     getDetallePeliculaOSerie,
-    //editPeliculaOSerie,
-    //deletePeliculaOSerie
+    editPeliculaOSerie,
+    deletePeliculaOSerie
 }

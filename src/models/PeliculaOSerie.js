@@ -8,7 +8,8 @@ const PeliculaOSerie = sequelize.define('peliculaOSerie', {
     },
     titulo: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     fechaDeCreacion: {
         type: DataTypes.DATE,
